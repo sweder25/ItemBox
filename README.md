@@ -46,7 +46,6 @@ Este enfoque modular y accesible busca facilitar la administración de recursos 
 
 
 
-
 Base de Datos 
     (por implementar en un excel)
     
