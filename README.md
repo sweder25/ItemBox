@@ -1,10 +1,11 @@
 # ItemBox
 Objetivo del Proyecto
+    Explicación:
+    Desarrollar un storage que permita consultar precios de objetos acorde a la necesidad del usuario, permitiendo generar filtros, buscar por nombre e identificar funciones y caracteristicas tales como el precio en cada region, acorde a su produccion y la de sus tratados comerciales, alianzas y cercanias. Tambien se espera poder modificar las tablas desde la misma app a necesidad tanto de forma manual con una interfaz amigable, como mediante un nuevo archivo excel que mantenga el mismo formato y sobre escriba el excel utilizado como base de datos, previniendo errores por corrupcion y datos mal ingresados.
 
-    Desarrollar un storage que permita consultar precios de objetos acorde a la necesidad del usuario, permitiendo generar filtros, buscar por nombre e identificar funciones y caracteristicas tales como el precio en cada region, acorde a su produccion y la de sus tratados comerciales, alianzas y cercanias. Tambien se espera poder modificar las tablas desde la misma app a necesidad
 
-
-Base de Datos (por implementar en un excel)
+Base de Datos 
+    (por implementar en un excel)
     Calidad:
         id int PK
         descripcion String
