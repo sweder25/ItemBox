@@ -5,11 +5,13 @@ Este proyecto tiene como finalidad desarrollar un sistema de almacenamiento (sto
 
 ## Funcionalidades Principales
 
-- **Consulta de precios**: Búsqueda por nombre, aplicación de filtros y visualización de características como:
-  - Precio por región
-  - Producción local
-  - Tratados comerciales
-  - Alianzas y proximidad geográfica
+  - Consulta de precios 
+  - Búsqueda por nombre
+  - Aplicación de filtros y visualización de características como:
+    - Precio por región
+    - Producción local
+    - Tratados comerciales
+    - Alianzas y proximidad geográfica
 
 - **Gestión de datos**:
     - Modificación manual de tablas mediante una interfaz
