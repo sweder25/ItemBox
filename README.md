@@ -8,7 +8,7 @@ Este proyecto tiene como finalidad desarrollar un sistema de almacenamiento (sto
   - Consulta de precios 
   - Búsqueda por nombre
   - Aplicación de filtros y visualización de características como:
-    - Precio por región
+    - Precios por región según su distribución
     - Producción local
     - Tratados comerciales
     - Alianzas y proximidad geográfica
@@ -20,6 +20,18 @@ Este proyecto tiene como finalidad desarrollar un sistema de almacenamiento (sto
 ## Estructura de la Base de Datos
 
 La base de datos se aloja en Oracle SQL, gestionada y alojada en la nube. Esta base de datos actúa como fuente principal de información y está protegida contra edición directa por parte de los jugadores.
+
+## Integración con reglas de D&D
+
+La aplicación respeta las reglas económicas del sistema de juego, permitiendo una experiencia coherente y automatizada para la gestión de recursos dentro de la campaña.
+
+## Planes a Futuro
+
+Se planea desarrollar una aplicación móvil que permita a los DM (Dungeon Masters) y jugadores interactuar con la base de datos de manera sencilla y eficiente, alojando la base de datos en el dispositivo móvil del DM quien tendrá control total sobre la misma y actuara como servidor para los jugadores los cuales se uniran a la base de datos de la Campaña con un código de acceso, esto pensando en que de esta forma los jugadores podran gestionar su inventario, recursos y equipos de forma agil.
+
+Se espera que los DM puedan gestionar multiples campañas y cada una contara con su propia base de datos independiente.
+
+Los jugadores podran comprar y vender acorde a los precios establecidos en la base de datos y segun las reglas economicas del sistema de juego y el DM podra gestionar la economia de la campaña de forma sencilla, se añadira un apartado para la opcion de regatear precios segun los datos ingresados por el DM.
 
 - **Acceso de jugadores**:
     - Pueden visualizar y cotizar precios
@@ -35,11 +47,7 @@ La base de datos se aloja en Oracle SQL, gestionada y alojada en la nube. Esta b
 
 - **Gestión de dinero**:
   - Solo el DM (Dungeon Master) puede añadir o modificar el dinero de los jugadores
-  - Los jugadores únicamente pueden gastar dinero al comprar objetos
-
-## Integración con reglas de D&D
-
-La aplicación respeta las reglas económicas del sistema de juego, permitiendo una experiencia coherente y automatizada para la gestión de recursos dentro de la campaña.
+  - Los jugadores únicamente pueden gastar dinero al comprar objetos o vender objetos de su inventario
 
 ---
 
