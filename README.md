@@ -19,7 +19,7 @@ Este proyecto tiene como finalidad desarrollar un sistema de almacenamiento (sto
 
 ## Estructura de la Base de Datos
 
-La base de datos se aloja en Oracle SQL, gestionada y alojada en la nube. Esta base de datos actúa como fuente principal de información y está protegida contra edición directa por parte de los jugadores.
+La base de datos se aloja en el dispositivo del DM. Esta base de datos actúa como fuente principal de información y está protegida contra edición directa por parte de los jugadores.
 
 ## Integración con reglas de D&D
 
