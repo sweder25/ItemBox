@@ -6,11 +6,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun HomePage() {
+fun AjustesPage(){
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Mensajito")
+        Text(text = "Mensajito de ajustes")
     }
 }
