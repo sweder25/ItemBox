@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.navigation.NavController
@@ -30,6 +31,12 @@ fun BottomNavigationBar(navController: NavController) {
             label = { Text("Ajustes") },
             selected = false,
             onClick = { navController.navigate("ajustes") }
+        )
+        NavigationBarItem(
+            icon = { Icon(Icons.Default.Menu, contentDescription = "Menu")},
+            label = { Text("Menu")},
+            selected = false,
+            onClick = { navController.navigate("menu")}
         )
     }
 }

@@ -2,6 +2,7 @@ package com.mij.itembox
 import AjustesPage
 import BottomNavigationBar
 import HomePage
+import MenuDropdown
 import PerfilPage
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -43,6 +44,7 @@ fun MainScreen() {
             composable("home") { HomePage() }
             composable("perfil") { PerfilPage() }
             composable("ajustes") { AjustesPage() }
+            composable ("menu"){ MenuDropdown() }
         }
     }
 }
