@@ -2,7 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("org.jetbrains.kotlin.kapt")
 }
+
 
 android {
     namespace = "com.mij.itembox"
@@ -58,4 +60,11 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    // Room (usar coordenadas directas para evitar problemas con el catálogo de versiones)
+    implementation("androidx.room:room-runtime:2.8.3")
+    implementation("androidx.room:room-ktx:2.8.3")
+    kapt("androidx.room:room-compiler:2.8.3")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 }
+
+
