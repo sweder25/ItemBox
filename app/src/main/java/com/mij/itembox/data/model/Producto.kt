@@ -10,3 +10,5 @@ data class Producto(
     val tipo: String,
     val imagenPath: String? = null
 )
+
+

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface InventarioDao {
-    @Query("SELECT * FROM inventarios ORDER BY id_inventario DESC")
+    @Query("SELECT * FROM Inventario ORDER BY id_inventario DESC")
     fun getAll(): Flow<List<Inventario>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

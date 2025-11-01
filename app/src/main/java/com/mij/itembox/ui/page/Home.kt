@@ -4,6 +4,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.room.util.TableInfo
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun HomePage() {
@@ -11,6 +13,7 @@ fun HomePage() {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Mensajito del home")
+
     }
+
 }

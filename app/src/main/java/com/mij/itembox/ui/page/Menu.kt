@@ -1,17 +1,48 @@
-
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @Composable
-fun MenuDropdown() {
+fun MenuDropdown(navController: NavController, modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Mensajito de Menu")
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Text(text = "Menu de Gestión")
+
+            Button(onClick = {
+                navController.navigate("CrearProducto")
+            }) {
+                Text("Crear un Producto")
+            }
+            Button(onClick = {
+                navController.navigate("VerProductos")
+            }) {
+                Text("Ver los Productos")
+            }
+            Button(onClick = {
+                navController.navigate("ModificarProducto")
+            }) {
+                Text("Modificar los Producto")
+            }
+
+            Button(onClick = {
+                navController.navigate("VerInventarios")
+            }) {
+                Text("Ver los Inventarios")
+            }
+
+
+        }
     }
 }
+
+

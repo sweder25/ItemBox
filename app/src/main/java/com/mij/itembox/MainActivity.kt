@@ -1,6 +1,8 @@
 package com.mij.itembox
+
 import AjustesPage
 import BottomNavigationBar
+import CrearProducto
 import HomePage
 import MenuDropdown
 import PerfilPage
@@ -44,7 +46,12 @@ fun MainScreen() {
             composable("home") { HomePage() }
             composable("perfil") { PerfilPage() }
             composable("ajustes") { AjustesPage() }
-            composable ("menu"){ MenuDropdown() }
+            composable ("menu"){ MenuDropdown(navController = navController, modifier = Modifier.padding(innerPadding)) }
+            composable("CrearProducto") {
+                CrearProducto(modifier = Modifier.padding(innerPadding))
+            }
+
+
         }
     }
 }
