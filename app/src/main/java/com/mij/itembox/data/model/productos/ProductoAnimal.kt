@@ -1,3 +1,5 @@
+package com.mij.itembox.data.model.productos
+
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -18,7 +20,7 @@ data class ProductoAnimal(
     val descripcion_origen: String,
     val descripcion_propiedades: String,
     val magia: Int,
-    val principal_provehedor: Int,
-    val valor_base: Double,
+    //val principal_provehedor: Int,
+    //val valor_base: Double,
     val peso: Double
 )

@@ -1,3 +1,5 @@
+package com.mij.itembox.data.model.productos
+
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -14,11 +16,11 @@ import com.mij.itembox.data.model.Producto
 )
 data class Elaborado(
     @PrimaryKey val id_producto: Long,
-    val valor_base: Double,
+    //val valor_base: Double,
     val rareza: Int,
     val magia: Int,
     val descripcion_objeto: String,
     val descripcion_propiedades: String,
-    val principal_provehedor: Int,
+    //val principal_provehedor: Int,
     val peso: Double
 )

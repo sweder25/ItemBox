@@ -8,6 +8,7 @@ data class Producto(
     @PrimaryKey(autoGenerate = true) val id_producto: Long = 0,
     val nombre: String,
     val tipo: String,
+    val precio: Double,
     val imagenPath: String? = null
 )
 

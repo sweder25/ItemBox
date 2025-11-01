@@ -18,4 +18,14 @@ interface InventarioDao {
 
     @Delete
     suspend fun delete(inventario: Inventario)
+
+    @Query("UPDATE inventario SET dinero = :nuevoMonto WHERE id_inventario = :idInventario")
+    suspend fun actualizarDinero(idInventario: Long, nuevoMonto: Double)
+
+    @Query("SELECT * FROM inventario WHERE id_inventario = :id")
+    fun getById(id: Long): Flow<Inventario>
+
+    @Query("SELECT * FROM inventario WHERE id_inventario = :id")
+    suspend fun getByIdSuspend(id: Long): Inventario
+
 }

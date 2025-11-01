@@ -1,3 +1,5 @@
+package com.mij.itembox.data.model.productos
+
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -16,9 +18,9 @@ data class Mineral(
     @PrimaryKey val id_producto: Long,
     val rareza: Int,
     val magia: Int,
-    val valor_base: Double,
+    //val valor_base: Double,
     val descripcion_objeto: String,
-    val principal_provehedor: Int,
-    val bioma_ideal: Int,
+    //val principal_provehedor: Int,
+    //val bioma_ideal: Int,
     val peso: Double
 )

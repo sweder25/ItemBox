@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class ProductoViewModel(application: Application) : AndroidViewModel(application) {
-    private val dao = AppDatabase.Companion.getDatabase(application).productoDao()
+    private val dao = AppDatabase.Companion.getInstance(application).productoDao()
     private val repository = ProductoRepository(dao)
 
-    val allItems: Flow<List<Producto>> = repository.allItems
+    val allProducto: Flow<List<Producto>> = repository.allProducto
 
     fun insert(producto: Producto) {
         viewModelScope.launch { repository.insert(producto) }
@@ -21,26 +21,18 @@ class ProductoViewModel(application: Application) : AndroidViewModel(application
 
     fun productoFlow(id: Long) = repository.getProducto(id)
 
-    // Llamar desde UI cuando ya tengas el path (String) devuelto por saveImageToInternalStorage
+
     fun updateImagen(productId: Long, path: String?) {
         viewModelScope.launch {
             repository.updateImagenPath(productId, path)
         }
     }
 
-    // Eliminar producto y su imagen interna (si existe)
-    fun deleteProductoAndImage(producto: com.mij.itembox.data.model.Producto) {
+    fun insertYRetornaId(producto: Producto, onResult: (Long) -> Unit) {
         viewModelScope.launch {
-            // borrar fichero si existe
-            producto.imagenPath?.let { relPath ->
-                try {
-                    val f = java.io.File(getApplication<Application>().filesDir, relPath)
-                    if (f.exists()) f.delete()
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-            repository.delete(producto)
+            val id = repository.insertYRetornaId(producto)
+            onResult(id)
         }
     }
+
 }

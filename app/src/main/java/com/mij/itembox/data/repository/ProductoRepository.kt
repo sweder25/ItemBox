@@ -5,7 +5,7 @@ import com.mij.itembox.data.dao.ProductoDao
 import kotlinx.coroutines.flow.Flow
 
 class ProductoRepository(private val dao: ProductoDao) {
-    val allItems: Flow<List<Producto>> = dao.getAll()
+    val allProducto: Flow<List<Producto>> = dao.getAll()
 
     suspend fun insert(producto: Producto) {
         dao.insert(producto)
@@ -16,7 +16,19 @@ class ProductoRepository(private val dao: ProductoDao) {
     }
 
 
+    fun getPorTipo(tipo: String): Flow<List<Producto>> {
+        return dao.getPorTipo(tipo)
+    }
+
+    suspend fun getProductoDirecto(id: Long): Producto {
+        return dao.getById(id)
+    }
+
     fun getProducto(id: Long) = dao.getProductoFlow(id)
     suspend fun updateImagenPath(id: Long, path: String?) = dao.updateImagenPath(id, path)
+
+    suspend fun insertYRetornaId(producto: Producto): Long {
+        return dao.insert(producto)
+    }
 
 }
