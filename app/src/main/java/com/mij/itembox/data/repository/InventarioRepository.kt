@@ -1,10 +1,11 @@
 package com.mij.itembox.data.repository
 
+
 import com.mij.itembox.data.model.Inventario
 import com.mij.itembox.data.dao.InventarioDao
 import kotlinx.coroutines.flow.Flow
 
-class InventarioRepository(private val dao: InventarioDao) {
+class InventarioRepository(private val dao: InventarioDao, ) {
 
     val allItems: Flow<List<Inventario>> = dao.getAll()
 

@@ -1,10 +1,12 @@
 package com.mij.itembox.data.dao
 
+
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.mij.itembox.data.dataclass.ProductoConCantidad
 import com.mij.itembox.data.model.Stock
 import kotlinx.coroutines.flow.Flow
 
@@ -25,4 +27,13 @@ interface StockDao {
 
     @Delete
     suspend fun eliminarStock(stock: Stock)
+
+    @Query("""
+    SELECT productos.nombre, stock.cantidad 
+    FROM stock 
+    INNER JOIN productos ON productos.id_producto = stock.id_producto 
+    WHERE stock.id_inventario = :inventarioId
+""")
+    suspend fun getProductosConCantidad(inventarioId: Long): List<ProductoConCantidad>
 }
+

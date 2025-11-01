@@ -1,9 +1,9 @@
-package com.mij.itembox.data.viewmodel
+package com.mij.itembox.data.viewmodel.Fabricadores
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-
+import com.mij.itembox.data.viewmodel.ProductoViewModel
 
 class ProductoViewModelFabricador(private val application: Application) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

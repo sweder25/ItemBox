@@ -29,9 +29,9 @@ fun MenuDropdown(navController: NavController, modifier: Modifier = Modifier) {
                 Text("Ver los Productos")
             }
             Button(onClick = {
-                navController.navigate("ModificarProducto")
+                navController.navigate("CrearInventario")
             }) {
-                Text("Modificar los Producto")
+                Text("Crear un Inventario")
             }
 
             Button(onClick = {

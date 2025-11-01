@@ -2,37 +2,26 @@ package com.mij.itembox
 
 import AjustesPage
 import BottomNavigationBar
-import CrearProductoPaso1
+import com.mij.itembox.ui.page.menuopciones.CrearProductoPaso1
 import HomePage
 import MenuDropdown
-import PerfilPage
+import com.mij.itembox.ui.page.PerfilPage
 import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mij.itembox.data.AppDatabase
-import com.mij.itembox.data.model.Producto
 import com.mij.itembox.data.rarezasPredefinidas
 import com.mij.itembox.data.repository.productos.AnimalRepository
 import com.mij.itembox.data.repository.productos.ElaboradoRepository
@@ -40,16 +29,20 @@ import com.mij.itembox.data.repository.productos.MineralRepository
 import com.mij.itembox.data.repository.productos.ProductoAnimalRepository
 import com.mij.itembox.data.repository.productos.VegetalRepository
 import com.mij.itembox.data.resistenciasPredefinidas
-import com.mij.itembox.data.viewmodel.ProductoViewModelFabricador
+import com.mij.itembox.data.viewmodel.Fabricadores.ProductoViewModelFabricador
+import com.mij.itembox.data.viewmodel.InventarioViewModel
 import com.mij.itembox.data.viewmodel.ProductoViewModel
 import com.mij.itembox.data.viewmodel.productos.AnimalViewModel
 import com.mij.itembox.data.viewmodel.productos.ElaboradoViewModel
 import com.mij.itembox.data.viewmodel.productos.MineralViewModel
 import com.mij.itembox.data.viewmodel.productos.ProductoAnimalViewModel
 import com.mij.itembox.data.viewmodel.productos.VegetalViewModel
-import com.mij.itembox.ui.page.CrearProductoPaso2
-import com.mij.itembox.ui.page.VerProductos
+import com.mij.itembox.ui.page.menuopciones.CrearInventarioPage
+import com.mij.itembox.ui.page.menuopciones.CrearProductoPaso2
+import com.mij.itembox.ui.page.menuopciones.VerInventarioPage
+import com.mij.itembox.ui.page.menuopciones.VerProductos
 import com.mij.itembox.ui.theme.ItemBoxTheme
+import com.mij.itembox.ui.viewmodel.InventarioViewModelFabricador
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,7 +73,15 @@ fun MainScreen() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("home") { HomePage() }
-            composable("perfil") { PerfilPage() }
+            composable("perfil") {
+                val context = LocalContext.current
+                val inventarioViewModel: InventarioViewModel = viewModel(
+                    factory = InventarioViewModelFabricador(context.applicationContext as Application)
+                )
+
+                PerfilPage(inventarioViewModel = inventarioViewModel)
+            }
+
             composable("ajustes") { AjustesPage() }
             composable ("menu"){ MenuDropdown(navController = navController, modifier = Modifier.padding(innerPadding)) }
             composable("CrearProducto") {
@@ -115,7 +116,33 @@ fun MainScreen() {
                     ) }
                 )
             }
+            composable("CrearInventario") {
+                val context = LocalContext.current
+                val inventarioViewModel: InventarioViewModel = viewModel(
+                    factory = InventarioViewModelFabricador(context.applicationContext as Application)
+                )
 
+                CrearInventarioPage(
+                    inventarioViewModel = inventarioViewModel,
+                    onInventarioCreado = {
+                        navController.navigate("perfil")
+                    }
+                )
+            }
+
+            composable("VerInventarios") {
+                val context = LocalContext.current
+                val inventarioViewModel: InventarioViewModel = viewModel(
+                    factory = InventarioViewModelFabricador(context.applicationContext as Application)
+                )
+
+                VerInventarioPage(
+                    inventarioViewModel = inventarioViewModel,
+                    onSeleccionar = { inventarioId ->
+                        navController.navigate("perfil")
+                    }
+                )
+            }
 
 
         }

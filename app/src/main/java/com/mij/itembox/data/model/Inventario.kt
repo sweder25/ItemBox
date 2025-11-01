@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 @Entity()
 data class Inventario(
     @PrimaryKey(autoGenerate = true) val id_inventario: Long = 0,
-    val nombre: Long,
+    val nombre: String,
     val dinero: Double
 )

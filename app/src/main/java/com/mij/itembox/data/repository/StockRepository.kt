@@ -1,5 +1,6 @@
 package com.mij.itembox.data.repository
 
+import com.mij.itembox.data.dataclass.ProductoConCantidad
 import com.mij.itembox.data.dao.StockDao
 import com.mij.itembox.data.model.Stock
 import kotlinx.coroutines.flow.Flow
@@ -69,6 +70,12 @@ class StockRepository(private val dao: StockDao) {
 
         return true
     }
+
+
+    suspend fun getProductosConCantidad(inventarioId: Long): List<ProductoConCantidad> {
+        return dao.getProductosConCantidad(inventarioId)
+    }
+
 
 
 }

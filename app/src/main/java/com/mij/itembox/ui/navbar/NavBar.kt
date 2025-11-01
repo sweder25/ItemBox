@@ -22,7 +22,7 @@ fun BottomNavigationBar(navController: NavController) {
         )
         NavigationBarItem(
             icon = { Icon(Icons.Default.Person, contentDescription = "Perfil") },
-            label = { Text("Perfil") },
+            label = { Text("Perfiles") },
             selected = false,
             onClick = { navController.navigate("perfil") }
         )

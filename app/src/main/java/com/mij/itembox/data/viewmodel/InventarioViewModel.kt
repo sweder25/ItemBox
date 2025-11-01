@@ -1,14 +1,20 @@
+package com.mij.itembox.data.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.mij.itembox.data.AppDatabase
+import com.mij.itembox.data.dataclass.ProductoConCantidad
 import com.mij.itembox.data.model.Inventario
 import com.mij.itembox.data.repository.InventarioRepository
+import com.mij.itembox.data.repository.StockRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 
-class InventarioViewModel(application: Application) : AndroidViewModel(application) {
+class InventarioViewModel(
+    application: Application,
+    private val stockRepository: StockRepository
+) : AndroidViewModel(application)  {
     private val dao = AppDatabase.getInstance(application).inventarioDao()
     private val repository = InventarioRepository(dao)
 
@@ -31,4 +37,15 @@ class InventarioViewModel(application: Application) : AndroidViewModel(applicati
             repository.actualizarDinero(id, nuevoMonto)
         }
     }
+    fun getProductosConCantidad(
+        inventarioId: Long,
+        onResult: (List<ProductoConCantidad>) -> Unit
+    ) {
+        viewModelScope.launch {
+            val resultado = stockRepository.getProductosConCantidad(inventarioId)
+            onResult(resultado)
+        }
+    }
+
+
 }

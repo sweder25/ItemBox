@@ -1,4 +1,4 @@
-package com.mij.itembox.ui.page
+package com.mij.itembox.ui.page.menuopciones
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
