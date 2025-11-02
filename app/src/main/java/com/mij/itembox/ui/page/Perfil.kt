@@ -12,13 +12,11 @@ import com.mij.itembox.data.dataclass.ProductoConCantidad
 import com.mij.itembox.data.viewmodel.InventarioViewModel
 
 @Composable
-fun PerfilPage(inventarioViewModel: InventarioViewModel) {
+fun PerfilPage(inventarioViewModel: InventarioViewModel, onIrAComprar: (Long?) -> Unit) {
     val inventarios by inventarioViewModel.allItems.collectAsState(initial = emptyList())
     var inventarioSeleccionado by remember { mutableStateOf<Long?>(null) }
     var productos by remember { mutableStateOf<List<ProductoConCantidad>>(emptyList()) }
     var inventarioActivo by remember { mutableStateOf<Long?>(null) }
-    var lastClickTime by remember { mutableStateOf(0L) }
-    val doubleClickThreshold = 300L // milisegundos
 
     Column(modifier = Modifier.padding(16.dp)) {
         Text("Tus Inventarios", style = MaterialTheme.typography.headlineSmall)
@@ -28,22 +26,35 @@ fun PerfilPage(inventarioViewModel: InventarioViewModel) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
-                    .pointerInput(inventario.id_inventario) {
-                        detectTapGestures(
-                            onTap = {
-                                val currentTime = System.currentTimeMillis()
-                                if (currentTime - lastClickTime < doubleClickThreshold) {
-                                    inventarioActivo = inventario.id_inventario
-                                } else {
-                                    inventarioSeleccionado = inventario.id_inventario
-                                    inventarioViewModel.getProductosConCantidad(inventario.id_inventario) {
-                                        productos = it
+                        .pointerInput(inventario.id_inventario) {
+                            detectTapGestures(
+                                onTap = {
+                                   
+                                    if (inventarioSeleccionado == inventario.id_inventario) {
+                                        inventarioSeleccionado = null
+                                        productos = emptyList()
+                                    } else {
+                                        inventarioSeleccionado = inventario.id_inventario
+                                        inventarioViewModel.getProductosConCantidad(inventario.id_inventario) {
+                                            productos = it
+                                        }
+                                    }
+                                },
+                                onDoubleTap = {
+                                   
+                                    if (inventarioActivo == inventario.id_inventario) {
+                                        inventarioActivo = null
+                                    } else {
+                                        inventarioActivo = inventario.id_inventario
+                                     
+                                        inventarioSeleccionado = inventario.id_inventario
+                                        inventarioViewModel.getProductosConCantidad(inventario.id_inventario) {
+                                            productos = it
+                                        }
                                     }
                                 }
-                                lastClickTime = currentTime
-                            }
-                        )
-                    }
+                            )
+                        }
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text("Nombre: ${inventario.nombre}", style = MaterialTheme.typography.titleMedium)
@@ -72,6 +83,11 @@ fun PerfilPage(inventarioViewModel: InventarioViewModel) {
                 Text("Inventario activo para operaciones: ${it.nombre}", style = MaterialTheme.typography.titleMedium)
                 Text("Dinero disponible: ${it.dinero}")
             }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = { onIrAComprar(inventarioActivo) }, modifier = Modifier.fillMaxWidth()) {
+            Text(text = "Ir a comprar")
         }
     }
 }

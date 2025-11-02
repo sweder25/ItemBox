@@ -39,6 +39,7 @@ import com.mij.itembox.data.viewmodel.productos.ProductoAnimalViewModel
 import com.mij.itembox.data.viewmodel.productos.VegetalViewModel
 import com.mij.itembox.ui.page.menuopciones.CrearInventarioPage
 import com.mij.itembox.ui.page.menuopciones.CrearProductoPaso2
+import com.mij.itembox.ui.page.menuopciones.TiendaPage
 import com.mij.itembox.ui.page.menuopciones.VerInventarioPage
 import com.mij.itembox.ui.page.menuopciones.VerProductos
 import com.mij.itembox.ui.theme.ItemBoxTheme
@@ -79,7 +80,14 @@ fun MainScreen() {
                     factory = InventarioViewModelFabricador(context.applicationContext as Application)
                 )
 
-                PerfilPage(inventarioViewModel = inventarioViewModel)
+                PerfilPage(inventarioViewModel = inventarioViewModel, onIrAComprar = { inventarioId ->
+                    if (inventarioId != null) {
+                        navController.navigate("Tienda/$inventarioId")
+                    } else {
+                        // If no active inventory, go to CrearInventario
+                        navController.navigate("CrearInventario")
+                    }
+                })
             }
 
             composable("ajustes") { AjustesPage() }
@@ -142,6 +150,11 @@ fun MainScreen() {
                         navController.navigate("perfil")
                     }
                 )
+            }
+
+            composable("Tienda/{inventarioId}") { backStackEntry ->
+                val inventarioId = backStackEntry.arguments?.getString("inventarioId")?.toLongOrNull() ?: return@composable
+                TiendaPage(inventarioId = inventarioId)
             }
 
 

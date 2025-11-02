@@ -21,7 +21,7 @@ import com.mij.itembox.data.dao.productos.MineralDao
 import com.mij.itembox.data.dao.productos.ProductoAnimalDao
 import com.mij.itembox.data.dao.productos.VegetalDao
 
-@Database(entities = [Producto::class, Inventario::class, Stock::class, Animal::class, Vegetal::class, Mineral::class, Elaborado::class, ProductoAnimal::class], version = 2, exportSchema = false)
+@Database(entities = [Producto::class, Inventario::class, Stock::class, Animal::class, Vegetal::class, Mineral::class, Elaborado::class, ProductoAnimal::class], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun productoDao(): ProductoDao
     abstract fun inventarioDao(): InventarioDao
@@ -50,7 +50,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "itembox.db"
                 )
-                    .fallbackToDestructiveMigration(false)
+                    .fallbackToDestructiveMigration()
                     .build()
                     .also { INSTANCE = it }
             }
