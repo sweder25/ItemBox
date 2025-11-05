@@ -11,6 +11,6 @@ fun AjustesPage(){
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Mensajito de ajustes")
+        Text(text = "Mensaje de Ajustes")
     }
 }
