@@ -1,4 +1,4 @@
-package com.mij.itembox.data
+package com.mij.itembox.data.predeterminados
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth

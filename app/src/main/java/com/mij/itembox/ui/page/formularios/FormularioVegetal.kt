@@ -18,9 +18,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.mij.itembox.data.DropdownSelector
-import com.mij.itembox.data.Rareza
-import com.mij.itembox.data.Resistencia
+import com.mij.itembox.data.predeterminados.DropdownSelector
+import com.mij.itembox.data.predeterminados.Rareza
+import com.mij.itembox.data.predeterminados.Resistencia
 import com.mij.itembox.data.viewmodel.productos.VegetalViewModel
 
 @Composable
