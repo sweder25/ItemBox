@@ -1,11 +1,9 @@
 package com.mij.itembox
 
-import AjustesPage
 import BottomNavigationBar
 import com.mij.itembox.ui.page.menuopciones.CrearProductoPaso1
-import HomePage
 import MenuDropdown
-import com.mij.itembox.ui.page.PerfilPage
+import PerfilPage
 import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -37,6 +35,8 @@ import com.mij.itembox.data.viewmodel.productos.ElaboradoViewModel
 import com.mij.itembox.data.viewmodel.productos.MineralViewModel
 import com.mij.itembox.data.viewmodel.productos.ProductoAnimalViewModel
 import com.mij.itembox.data.viewmodel.productos.VegetalViewModel
+import com.mij.itembox.ui.page.AjustesPage
+import com.mij.itembox.ui.page.HomePage
 import com.mij.itembox.ui.page.menuopciones.CrearInventarioPage
 import com.mij.itembox.ui.page.menuopciones.CrearProductoPaso2
 import com.mij.itembox.ui.page.menuopciones.TiendaPage
@@ -55,13 +55,12 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
     val context = LocalContext.current
-    val factory = remember { ProductoViewModelFabricador(context.applicationContext as Application) }
+    val factory =
+        remember { ProductoViewModelFabricador(context.applicationContext as Application) }
     val viewModelProducto: ProductoViewModel = viewModel(factory = factory)
 
 
@@ -80,25 +79,37 @@ fun MainScreen() {
                     factory = InventarioViewModelFabricador(context.applicationContext as Application)
                 )
 
-                PerfilPage(inventarioViewModel = inventarioViewModel, onIrAComprar = { inventarioId ->
-                    if (inventarioId != null) {
-                        navController.navigate("Tienda/$inventarioId")
-                    } else {
-                        // If no active inventory, go to CrearInventario
-                        navController.navigate("CrearInventario")
-                    }
-                })
+                PerfilPage(
+                    inventarioViewModel = inventarioViewModel,
+                    onIrAComprar = { inventarioId ->
+                        if (inventarioId != null) {
+                            navController.navigate("Tienda/$inventarioId")
+                        } else {
+                            // If no active inventory, go to CrearInventario
+                            navController.navigate("CrearInventario")
+                        }
+                    })
             }
 
             composable("ajustes") { AjustesPage() }
-            composable ("menu"){ MenuDropdown(navController = navController, modifier = Modifier.padding(innerPadding)) }
+            composable("menu") {
+                MenuDropdown(
+                    navController = navController,
+                    modifier = Modifier.padding(innerPadding)
+                )
+            }
             composable("CrearProducto") {
-                CrearProductoPaso1(viewModel = viewModelProducto, onContinuar = { idProducto, tipo ->
-                    navController.navigate("CrearProductoPaso2/$idProducto/$tipo")
-                },modifier = Modifier.padding(innerPadding))
+                CrearProductoPaso1(
+                    viewModel = viewModelProducto,
+                    onContinuar = { idProducto, tipo ->
+                        navController.navigate("CrearProductoPaso2/$idProducto/$tipo")
+                    },
+                    modifier = Modifier.padding(innerPadding)
+                )
             }
             composable("CrearProductoPaso2/{idProducto}/{tipo}") { backStackEntry ->
-                val idProducto = backStackEntry.arguments?.getString("idProducto")?.toLongOrNull() ?: return@composable
+                val idProducto = backStackEntry.arguments?.getString("idProducto")?.toLongOrNull()
+                    ?: return@composable
                 val tipo = backStackEntry.arguments?.getString("tipo") ?: return@composable
 
                 CrearProductoPaso2(
@@ -119,9 +130,11 @@ fun MainScreen() {
                     vegetalViewModel = remember { VegetalViewModel(VegetalRepository(database.vegetalDao())) },
                     mineralViewModel = remember { MineralViewModel(MineralRepository(database.mineralDao())) },
                     elaboradoViewModel = remember { ElaboradoViewModel(ElaboradoRepository(database.elaboradoDao())) },
-                    productoAnimalViewModel = remember { ProductoAnimalViewModel(
-                        ProductoAnimalRepository(database.productoAnimalDao())
-                    ) }
+                    productoAnimalViewModel = remember {
+                        ProductoAnimalViewModel(
+                            ProductoAnimalRepository(database.productoAnimalDao())
+                        )
+                    }
                 )
             }
             composable("CrearInventario") {
@@ -153,7 +166,9 @@ fun MainScreen() {
             }
 
             composable("Tienda/{inventarioId}") { backStackEntry ->
-                val inventarioId = backStackEntry.arguments?.getString("inventarioId")?.toLongOrNull() ?: return@composable
+                val inventarioId =
+                    backStackEntry.arguments?.getString("inventarioId")?.toLongOrNull()
+                        ?: return@composable
                 TiendaPage(inventarioId = inventarioId)
             }
 
@@ -161,6 +176,7 @@ fun MainScreen() {
         }
     }
 }
+    }
 
 
 
