@@ -69,6 +69,10 @@ dependencies {
     implementation("androidx.room:room-ktx:2.8.3")
     kapt("androidx.room:room-compiler:2.8.3")
     implementation("io.coil-kt:coil-compose:2.4.0")
+    // HTTP client for Boleta microservice
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 }
 
 

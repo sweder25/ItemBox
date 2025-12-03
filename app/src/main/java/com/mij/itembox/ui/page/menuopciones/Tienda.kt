@@ -18,6 +18,8 @@ import com.mij.itembox.data.viewmodel.Fabricadores.ProductoViewModelFabricador
 import com.mij.itembox.data.viewmodel.ProductoViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
+import com.mij.itembox.network.BoletaApiClient
+import com.mij.itembox.network.BoletaRequest
 
 @Composable
 fun TiendaPage(inventarioId: Long) {
@@ -96,7 +98,22 @@ fun TiendaPage(inventarioId: Long) {
                                         
                                         stockRepo.agregarProductoAlInventario(inventarioId, producto.id_producto, cantidad)
                                         inventarioRepo.descontarDinero(inventarioId, total)
+                                        // Compra realizada localmente; ahora intentar generar boleta en el microservicio
                                         mensaje = "Compra realizada: ${producto.nombre} x$cantidad"
+
+                                        // Generar un ventaId temporal (placeholder). Reemplazar por el ID real de la entidad Venta si existe.
+                                        val ventaId = System.currentTimeMillis()
+                                        try {
+                                            val resp = BoletaApiClient.api.generarBoleta(BoletaRequest(ventaId))
+                                            if (resp.success == true) {
+                                                val numero = resp.data?.numero ?: resp.data?.id
+                                                mensaje = "Compra realizada: ${producto.nombre} x$cantidad. Boleta: $numero"
+                                            } else {
+                                                mensaje = "Compra realizada pero boleta falló: ${resp.message}"
+                                            }
+                                        } catch (e: Exception) {
+                                            mensaje = "Compra realizada pero error al generar boleta: ${e.message}"
+                                        }
                                         
                                         cantidad = 0
                                     } catch (e: Exception) {
