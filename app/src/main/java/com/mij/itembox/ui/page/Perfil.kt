@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.shape.RoundedCornerShape
 import com.mij.itembox.data.dataclass.ProductoConCantidad
 import com.mij.itembox.data.viewmodel.InventarioViewModel
-import com.mij.itembox.util.AppBackground
+import com.mij.itembox.ui.page.composables.AppBackground
 
 @Composable
 fun PerfilPage(

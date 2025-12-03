@@ -8,10 +8,11 @@ import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -30,6 +31,7 @@ import com.mij.itembox.data.resistenciasPredefinidas
 import com.mij.itembox.data.viewmodel.Fabricadores.ProductoViewModelFabricador
 import com.mij.itembox.data.viewmodel.InventarioViewModel
 import com.mij.itembox.data.viewmodel.ProductoViewModel
+import com.mij.itembox.data.viewmodel.SettingsViewModel
 import com.mij.itembox.data.viewmodel.productos.AnimalViewModel
 import com.mij.itembox.data.viewmodel.productos.ElaboradoViewModel
 import com.mij.itembox.data.viewmodel.productos.MineralViewModel
@@ -42,71 +44,80 @@ import com.mij.itembox.ui.page.menuopciones.CrearProductoPaso2
 import com.mij.itembox.ui.page.menuopciones.TiendaPage
 import com.mij.itembox.ui.page.menuopciones.VerInventarioPage
 import com.mij.itembox.ui.page.menuopciones.VerProductos
-import com.mij.itembox.ui.theme.ItemBoxTheme
+import com.mij.itembox.ui.theme.theme_fondos.AppTheme
 import com.mij.itembox.ui.viewmodel.InventarioViewModelFabricador
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            ItemBoxTheme {
-                MainScreen()
+
+            val settingsViewModel: SettingsViewModel = viewModel(
+                factory = androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+            )
+
+            val isDark by settingsViewModel.darkMode.collectAsState()
+
+            AppTheme(darkTheme = isDark) {
+                MainScreen(settingsViewModel)
             }
         }
     }
+}
 @Composable
-fun MainScreen() {
+fun MainScreen(settingsViewModel: SettingsViewModel) {
+
     val navController = rememberNavController()
     val context = LocalContext.current
-    val factory =
-        remember { ProductoViewModelFabricador(context.applicationContext as Application) }
-    val viewModelProducto: ProductoViewModel = viewModel(factory = factory)
 
+    val factory = remember {
+        ProductoViewModelFabricador(context.applicationContext as Application)
+    }
+    val viewModelProducto: ProductoViewModel = viewModel(factory = factory)
 
     Scaffold(
         bottomBar = { BottomNavigationBar(navController = navController) }
     ) { innerPadding ->
+
         NavHost(
             navController = navController,
             startDestination = "home",
             modifier = Modifier.padding(innerPadding)
         ) {
+
             composable("home") { HomePage() }
+
             composable("perfil") {
-                val context = LocalContext.current
                 val inventarioViewModel: InventarioViewModel = viewModel(
                     factory = InventarioViewModelFabricador(context.applicationContext as Application)
                 )
-
                 PerfilPage(
                     inventarioViewModel = inventarioViewModel,
                     onIrAComprar = { inventarioId ->
                         if (inventarioId != null) {
                             navController.navigate("Tienda/$inventarioId")
                         } else {
-                            // If no active inventory, go to CrearInventario
                             navController.navigate("CrearInventario")
                         }
-                    })
-            }
-
-            composable("ajustes") { AjustesPage() }
-            composable("menu") {
-                MenuDropdown(
-                    navController = navController,
-                    modifier = Modifier.padding(innerPadding)
+                    }
                 )
             }
+
+            composable("ajustes") { AjustesPage(settingsViewModel) }
+
+            composable("menu") {
+                MenuDropdown(navController = navController)
+            }
+
             composable("CrearProducto") {
                 CrearProductoPaso1(
                     viewModel = viewModelProducto,
                     onContinuar = { idProducto, tipo ->
                         navController.navigate("CrearProductoPaso2/$idProducto/$tipo")
-                    },
-                    modifier = Modifier.padding(innerPadding)
+                    }
                 )
             }
+
             composable("CrearProductoPaso2/{idProducto}/{tipo}") { backStackEntry ->
                 val idProducto = backStackEntry.arguments?.getString("idProducto")?.toLongOrNull()
                     ?: return@composable
@@ -120,8 +131,8 @@ fun MainScreen() {
                     resistencias = resistenciasPredefinidas
                 )
             }
+
             composable("verProductos") {
-                val context = LocalContext.current
                 val database = remember { AppDatabase.getInstance(context) }
 
                 VerProductos(
@@ -137,12 +148,11 @@ fun MainScreen() {
                     }
                 )
             }
+
             composable("CrearInventario") {
-                val context = LocalContext.current
                 val inventarioViewModel: InventarioViewModel = viewModel(
                     factory = InventarioViewModelFabricador(context.applicationContext as Application)
                 )
-
                 CrearInventarioPage(
                     inventarioViewModel = inventarioViewModel,
                     onInventarioCreado = {
@@ -152,15 +162,12 @@ fun MainScreen() {
             }
 
             composable("VerInventarios") {
-                val context = LocalContext.current
                 val inventarioViewModel: InventarioViewModel = viewModel(
                     factory = InventarioViewModelFabricador(context.applicationContext as Application)
                 )
-
                 VerInventarioPage(
                     inventarioViewModel = inventarioViewModel,
-                    onSeleccionar = { inventarioId ->
-                        navController.navigate("perfil")
+                    onSeleccionar = { navController.navigate("perfil")
                     }
                 )
             }
@@ -169,14 +176,8 @@ fun MainScreen() {
                 val inventarioId =
                     backStackEntry.arguments?.getString("inventarioId")?.toLongOrNull()
                         ?: return@composable
-                TiendaPage(inventarioId = inventarioId)
+                TiendaPage(inventarioId)
             }
-
-
         }
     }
 }
-    }
-
-
-

@@ -1,4 +1,4 @@
-package com.mij.itembox.util
+package com.mij.itembox.ui.page.composables
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -30,7 +30,6 @@ fun AppBackground(content: @Composable BoxScope.() -> Unit) {
             contentScale = ContentScale.Crop
         )
 
-        // Oscurecer
         Box(
             modifier = Modifier
                 .fillMaxSize()

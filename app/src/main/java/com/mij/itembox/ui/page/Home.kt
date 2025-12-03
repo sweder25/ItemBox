@@ -29,7 +29,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.mij.itembox.R
-import com.mij.itembox.util.AppBackground
+import com.mij.itembox.ui.page.composables.AppBackground
 
 
 @Composable

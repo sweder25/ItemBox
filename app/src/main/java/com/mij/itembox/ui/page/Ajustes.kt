@@ -1,41 +1,34 @@
 package com.mij.itembox.ui.page
-
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import com.mij.itembox.R
-
-
+import androidx.compose.ui.unit.dp
+import com.mij.itembox.data.viewmodel.SettingsViewModel
 
 @Composable
-fun AjustesPage(){
-    Box(
+fun AjustesPage(settingsViewModel: SettingsViewModel) {
+    val darkMode by settingsViewModel.darkMode.collectAsState()
+
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(Color.Transparent, Color.Transparent)
-                )
-            )
+            .padding(20.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.fondo),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
+        Text("Ajustes", style = MaterialTheme.typography.headlineMedium)
+        Spacer(modifier = Modifier.height(16.dp))
 
-
-        Column(modifier = Modifier.fillMaxSize()) {
-            // ...
+        Row(modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically) {
+            Text("Modo oscuro", style = MaterialTheme.typography.bodyLarge)
+            Switch(
+                checked = darkMode,
+                onCheckedChange = { settingsViewModel.setDarkMode(it) }
+            )
         }
     }
 }

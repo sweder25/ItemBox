@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -17,12 +18,15 @@ import com.mij.itembox.data.repository.StockRepository
 import com.mij.itembox.data.viewmodel.Fabricadores.ProductoViewModelFabricador
 import com.mij.itembox.data.viewmodel.ProductoViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mij.itembox.ui.page.composables.AppBackground
 import kotlinx.coroutines.launch
 
 @Composable
 fun TiendaPage(inventarioId: Long) {
     val context = LocalContext.current
-    val factory = remember { ProductoViewModelFabricador(context.applicationContext as android.app.Application) }
+    val factory = remember {
+        ProductoViewModelFabricador(context.applicationContext as android.app.Application)
+    }
     val productoViewModel: ProductoViewModel = viewModel(factory = factory)
 
     val productos by productoViewModel.allProducto.collectAsState(initial = emptyList())
@@ -36,75 +40,108 @@ fun TiendaPage(inventarioId: Long) {
 
     val scope = rememberCoroutineScope()
 
-    Column(modifier = Modifier.padding(16.dp)) {
-        OutlinedTextField(
-            value = filtro,
-            onValueChange = { filtro = it },
-            label = { Text("Buscar por ID") },
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
-        )
+    AppBackground {
 
-        mensaje?.let { msg ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            OutlinedTextField(
+                value = filtro,
+                onValueChange = { filtro = it },
+                label = { Text("Buscar por ID") },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            mensaje?.let { msg ->
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(text = msg, color = MaterialTheme.colorScheme.primary)
+            }
+
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = msg)
-        }
 
-        Spacer(modifier = Modifier.height(8.dp))
+            val idFiltrado = filtro.toLongOrNull()
+            val productosFiltrados =
+                if (idFiltrado != null) productos.filter { it.id_producto == idFiltrado }
+                else productos
 
-        val idFiltrado = filtro.toLongOrNull()
-        val productosFiltrados = if (idFiltrado != null) productos.filter { it.id_producto == idFiltrado } else productos
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(productosFiltrados) { producto ->
 
-        LazyColumn {
-            items(productosFiltrados) { producto ->
-                var cantidad by remember { mutableStateOf(0) }
+                    var cantidad by remember { mutableStateOf(0) }
 
-                Card(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 6.dp)
-                ) {
-                    Column(modifier = Modifier.padding(12.dp)) {
-                        Text(text = producto.nombre, style = MaterialTheme.typography.titleMedium)
-                        Text(text = "Precio: ${producto.precio}")
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 6.dp)
+                    ) {
+                        Column(modifier = Modifier.padding(12.dp)) {
 
-                        Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = producto.nombre,
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                            Text(text = "Precio: ${producto.precio}")
 
-                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                            Row {
-                                Button(onClick = { if (cantidad > 0) cantidad-- }) { Text("-") }
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(text = cantidad.toString(), modifier = Modifier.alignByBaseline())
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Button(onClick = { cantidad++ }) { Text("+") }
-                            }
+                            Spacer(modifier = Modifier.height(8.dp))
 
-                            Button(onClick = {
-                                if (cantidad <= 0) {
-                                    mensaje = "Selecciona una cantidad mayor que 0"
-                                    return@Button
-                                }
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
 
-                                scope.launch {
-                                    try {
-                                        val inventario = inventarioRepo.getByIdSuspend(inventarioId)
-                                        val total = producto.precio * cantidad
-                                        if (inventario.dinero < total) {
-                                            mensaje = "Dinero insuficiente"
-                                            return@launch
-                                        }
-
-                                        
-                                        stockRepo.agregarProductoAlInventario(inventarioId, producto.id_producto, cantidad)
-                                        inventarioRepo.descontarDinero(inventarioId, total)
-                                        mensaje = "Compra realizada: ${producto.nombre} x$cantidad"
-                                        
-                                        cantidad = 0
-                                    } catch (e: Exception) {
-                                        mensaje = "Error al realizar compra: ${e.message}"
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Button(onClick = { if (cantidad > 0) cantidad-- }) {
+                                        Text("-")
+                                    }
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(cantidad.toString())
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Button(onClick = { cantidad++ }) {
+                                        Text("+")
                                     }
                                 }
-                            }) {
-                                Text("Comprar")
+
+                                Button(onClick = {
+                                    if (cantidad <= 0) {
+                                        mensaje = "Selecciona una cantidad mayor que 0"
+                                        return@Button
+                                    }
+
+                                    scope.launch {
+                                        try {
+                                            val inventario = inventarioRepo.getByIdSuspend(inventarioId)
+                                            val total = producto.precio * cantidad
+
+                                            if (inventario.dinero < total) {
+                                                mensaje = "Dinero insuficiente"
+                                                return@launch
+                                            }
+
+                                            stockRepo.agregarProductoAlInventario(
+                                                inventarioId,
+                                                producto.id_producto,
+                                                cantidad
+                                            )
+
+                                            inventarioRepo.descontarDinero(inventarioId, total)
+
+                                            mensaje = "Compra: ${producto.nombre} x$cantidad"
+
+                                            cantidad = 0
+                                        } catch (e: Exception) {
+                                            mensaje = "Error: ${e.message}"
+                                        }
+                                    }
+                                }) {
+                                    Text("Comprar")
+                                }
                             }
                         }
                     }
