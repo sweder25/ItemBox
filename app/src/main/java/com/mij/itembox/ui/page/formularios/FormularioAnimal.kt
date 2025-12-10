@@ -26,8 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.mij.itembox.data.DropdownSelector
-import com.mij.itembox.data.Rareza
+import com.mij.itembox.data.predeterminados.DropdownSelector
+import com.mij.itembox.data.predeterminados.Rareza
 import com.mij.itembox.data.viewmodel.productos.AnimalViewModel
 import com.mij.itembox.ui.page.composables.AppBackground
 import com.mij.itembox.ui.page.composables.StyledTextField

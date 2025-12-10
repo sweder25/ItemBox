@@ -1,4 +1,4 @@
-package com.mij.itembox.data
+package com.mij.itembox.data.predeterminados
 
 data class Resistencia(val id: Int, val descripcion: String)
 

@@ -21,13 +21,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mij.itembox.data.AppDatabase
-import com.mij.itembox.data.rarezasPredefinidas
+import com.mij.itembox.data.predeterminados.rarezasPredefinidas
 import com.mij.itembox.data.repository.productos.AnimalRepository
 import com.mij.itembox.data.repository.productos.ElaboradoRepository
 import com.mij.itembox.data.repository.productos.MineralRepository
 import com.mij.itembox.data.repository.productos.ProductoAnimalRepository
 import com.mij.itembox.data.repository.productos.VegetalRepository
-import com.mij.itembox.data.resistenciasPredefinidas
+import com.mij.itembox.data.predeterminados.resistenciasPredefinidas
 import com.mij.itembox.data.viewmodel.Fabricadores.ProductoViewModelFabricador
 import com.mij.itembox.data.viewmodel.InventarioViewModel
 import com.mij.itembox.data.viewmodel.ProductoViewModel

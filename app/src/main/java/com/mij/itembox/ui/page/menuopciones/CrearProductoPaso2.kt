@@ -17,8 +17,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.mij.itembox.data.AppDatabase
-import com.mij.itembox.data.Rareza
-import com.mij.itembox.data.Resistencia
+import com.mij.itembox.data.predeterminados.Rareza
+import com.mij.itembox.data.predeterminados.Resistencia
 import com.mij.itembox.data.repository.productos.AnimalRepository
 import com.mij.itembox.data.repository.productos.ElaboradoRepository
 import com.mij.itembox.data.repository.productos.MineralRepository

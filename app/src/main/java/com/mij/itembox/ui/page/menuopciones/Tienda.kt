@@ -20,6 +20,8 @@ import com.mij.itembox.data.viewmodel.ProductoViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mij.itembox.ui.page.composables.AppBackground
 import kotlinx.coroutines.launch
+import com.mij.itembox.network.BoletaApiClient
+import com.mij.itembox.network.BoletaRequest
 
 @Composable
 fun TiendaPage(inventarioId: Long) {
