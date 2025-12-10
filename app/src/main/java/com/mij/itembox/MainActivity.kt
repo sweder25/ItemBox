@@ -37,6 +37,7 @@ import com.mij.itembox.data.viewmodel.productos.ElaboradoViewModel
 import com.mij.itembox.data.viewmodel.productos.MineralViewModel
 import com.mij.itembox.data.viewmodel.productos.ProductoAnimalViewModel
 import com.mij.itembox.data.viewmodel.productos.VegetalViewModel
+import com.mij.itembox.ui.auth.AuthNavigation
 import com.mij.itembox.ui.page.AjustesPage
 import com.mij.itembox.ui.page.HomePage
 import com.mij.itembox.ui.page.menuopciones.CrearInventarioPage
@@ -53,13 +54,14 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             val settingsViewModel: SettingsViewModel = viewModel(
-                factory = androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+                factory = androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
+                    .getInstance(application)
             )
 
             val isDark by settingsViewModel.darkMode.collectAsState()
 
             AppTheme(darkTheme = isDark) {
-                MainScreen(settingsViewModel)
+                AuthNavigation(settingsViewModel)
             }
         }
     }
